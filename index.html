@@ -1,0 +1,1007 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>20명 친구여행 후보 지도</title>
+  <style>
+    :root {
+      --bg: #f4f7fb;
+      --paper: #ffffff;
+      --ink: #172033;
+      --muted: #667085;
+      --line: #e3e8ef;
+      --sea: #dff3ff;
+      --land: #dff7e8;
+      --land-deep: #8fd6a4;
+      --north: #e8eef5;
+      --blue: #2563eb;
+      --green: #059669;
+      --orange: #ea580c;
+      --purple: #7c3aed;
+      --pink: #db2777;
+      --shadow: 0 22px 55px rgba(15, 23, 42, .13);
+      --radius: 28px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(37,99,235,.16), transparent 30%),
+        radial-gradient(circle at 88% 18%, rgba(5,150,105,.14), transparent 30%),
+        var(--bg);
+    }
+
+    a { color: inherit; }
+
+    .page {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      gap: 20px;
+      margin-bottom: 22px;
+    }
+
+    .hero-main,
+    .hero-side,
+    .map-card,
+    .info-card,
+    .trip-card,
+    .final-card {
+      background: rgba(255,255,255,.9);
+      border: 1px solid rgba(226,232,240,.95);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+    }
+
+    .hero-main {
+      position: relative;
+      overflow: hidden;
+      padding: 30px;
+    }
+
+    .hero-main::after {
+      content: "";
+      position: absolute;
+      right: -80px;
+      top: -80px;
+      width: 260px;
+      height: 260px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, rgba(37,99,235,.18), rgba(5,150,105,.15));
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: #eef5ff;
+      color: #1d4ed8;
+      font-size: 13px;
+      font-weight: 900;
+      margin-bottom: 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(32px, 4vw, 54px);
+      line-height: 1.04;
+      letter-spacing: -0.055em;
+    }
+
+    .subtitle {
+      margin: 16px 0 0;
+      max-width: 780px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.65;
+    }
+
+    .hero-side {
+      padding: 22px;
+    }
+
+    .side-title {
+      font-size: 17px;
+      font-weight: 950;
+      margin-bottom: 12px;
+      letter-spacing: -0.03em;
+    }
+
+    .checklist {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      color: #344054;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(520px, .98fr) minmax(360px, .72fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .map-card {
+      position: sticky;
+      top: 18px;
+      padding: 20px;
+      min-height: 820px;
+    }
+
+    .map-title-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    .map-title {
+      margin: 0;
+      font-size: 24px;
+      letter-spacing: -0.045em;
+    }
+
+    .map-subtitle {
+      margin: 6px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .legend-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      color: #475467;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .dot.best { background: var(--green); }
+    .dot.sea { background: var(--blue); }
+    .dot.activity { background: var(--orange); }
+    .dot.quiet { background: var(--purple); }
+    .dot.valley { background: var(--pink); }
+
+    .korea-map {
+      position: relative;
+      height: 730px;
+      border-radius: 24px;
+      overflow: hidden;
+      background:
+        radial-gradient(circle at 20% 24%, rgba(255,255,255,.75), transparent 22%),
+        linear-gradient(180deg, #e2f5ff 0%, #cfefff 100%);
+      border: 1px solid #cce7f7;
+    }
+
+    .korea-map::before {
+      content: "동해";
+      position: absolute;
+      right: 34px;
+      top: 42%;
+      color: rgba(37,99,235,.34);
+      font-size: 26px;
+      font-weight: 950;
+      letter-spacing: .18em;
+      writing-mode: vertical-rl;
+    }
+
+    .korea-map::after {
+      content: "서해";
+      position: absolute;
+      left: 36px;
+      top: 50%;
+      color: rgba(37,99,235,.30);
+      font-size: 26px;
+      font-weight: 950;
+      letter-spacing: .18em;
+      writing-mode: vertical-rl;
+    }
+
+    .map-svg {
+      position: absolute;
+      inset: 18px 42px 18px 42px;
+      width: calc(100% - 84px);
+      height: calc(100% - 36px);
+      filter: drop-shadow(0 22px 32px rgba(15, 23, 42, .13));
+    }
+
+    .region-label {
+      position: absolute;
+      z-index: 2;
+      transform: translate(-50%, -50%);
+      padding: 5px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.72);
+      border: 1px solid rgba(226,232,240,.85);
+      color: #475467;
+      font-size: 12px;
+      font-weight: 900;
+      backdrop-filter: blur(6px);
+      pointer-events: none;
+    }
+
+    .pin {
+      position: absolute;
+      z-index: 5;
+      transform: translate(-50%, -100%);
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 50% 50% 50% 0;
+      rotate: -45deg;
+      cursor: pointer;
+      color: #fff;
+      box-shadow: 0 14px 26px rgba(15, 23, 42, .28);
+      transition: transform .18s ease, filter .18s ease;
+    }
+
+    .pin span {
+      rotate: 45deg;
+      font-size: 15px;
+      font-weight: 1000;
+    }
+
+    .pin:hover,
+    .pin.active {
+      transform: translate(-50%, -100%) scale(1.12);
+      filter: brightness(1.03);
+    }
+
+    .pin.best { background: var(--green); }
+    .pin.sea { background: var(--blue); }
+    .pin.activity { background: var(--orange); }
+    .pin.quiet { background: var(--purple); }
+
+    .pin-name {
+      position: absolute;
+      z-index: 4;
+      transform: translate(-50%, 2px);
+      padding: 7px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.92);
+      border: 1px solid var(--line);
+      box-shadow: 0 8px 20px rgba(15,23,42,.1);
+      color: #1f2937;
+      font-size: 12px;
+      font-weight: 950;
+      white-space: nowrap;
+      pointer-events: none;
+    }
+
+    .map-popup {
+      position: absolute;
+      z-index: 8;
+      right: 22px;
+      bottom: 22px;
+      width: min(360px, calc(100% - 44px));
+      padding: 18px;
+      border-radius: 22px;
+      background: rgba(255,255,255,.96);
+      border: 1px solid var(--line);
+      box-shadow: 0 24px 56px rgba(15,23,42,.22);
+      backdrop-filter: blur(14px);
+    }
+
+    .map-popup.hidden {
+      display: none;
+    }
+
+    .popup-close {
+      flex: none;
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border: 0;
+      border-radius: 999px;
+      background: #f1f5f9;
+      color: #475467;
+      font-size: 18px;
+      font-weight: 1000;
+      line-height: 1;
+      cursor: pointer;
+      transition: all .18s ease;
+    }
+
+    .popup-close:hover {
+      background: #e2e8f0;
+      color: #101828;
+      transform: rotate(90deg);
+    }
+
+    .popup-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .popup-title {
+      margin: 0;
+      font-size: 20px;
+      letter-spacing: -0.04em;
+      line-height: 1.15;
+    }
+
+    .popup-badge {
+      flex: none;
+      padding: 6px 9px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 950;
+    }
+
+    .popup-badge.best { background: var(--green); }
+    .popup-badge.sea { background: var(--blue); }
+    .popup-badge.activity { background: var(--orange); }
+    .popup-badge.quiet { background: var(--purple); }
+
+    .popup-desc {
+      margin: 0 0 12px;
+      color: #475467;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .popup-reasons {
+      margin: 0 0 12px 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 6px;
+      font-size: 13px;
+      color: #344054;
+    }
+
+    .popup-reasons li::before {
+      content: "• ";
+      color: var(--blue);
+      font-weight: 950;
+    }
+
+    .popup-links {
+      display: grid;
+      gap: 8px;
+    }
+
+    .popup-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .popup-link:hover {
+      background: #eef5ff;
+      border-color: rgba(37,99,235,.32);
+    }
+
+    .map-hint {
+      position: absolute;
+      left: 20px;
+      bottom: 20px;
+      z-index: 4;
+      max-width: 300px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.9);
+      border: 1px solid var(--line);
+      box-shadow: 0 12px 28px rgba(15,23,42,.12);
+      color: #475467;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .side-panel {
+      display: grid;
+      gap: 16px;
+    }
+
+    .info-card,
+    .final-card {
+      padding: 20px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .chip {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 999px;
+      padding: 9px 12px;
+      color: #475467;
+      font-size: 13px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: all .18s ease;
+    }
+
+    .chip:hover,
+    .chip.active {
+      background: #2563eb;
+      color: #fff;
+      border-color: #2563eb;
+    }
+
+    .cards {
+      display: grid;
+      gap: 12px;
+    }
+
+    .trip-card {
+      padding: 16px;
+      box-shadow: 0 12px 28px rgba(15,23,42,.08);
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+    }
+
+    .trip-card:hover,
+    .trip-card.active {
+      transform: translateY(-2px);
+      border-color: rgba(37,99,235,.48);
+      box-shadow: 0 20px 40px rgba(37,99,235,.13);
+    }
+
+    .trip-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .trip-title {
+      font-size: 18px;
+      font-weight: 1000;
+      letter-spacing: -0.04em;
+    }
+
+    .trip-tag {
+      flex: none;
+      padding: 6px 8px;
+      border-radius: 999px;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 950;
+    }
+
+    .trip-tag.best { background: var(--green); }
+    .trip-tag.sea { background: var(--blue); }
+    .trip-tag.activity { background: var(--orange); }
+    .trip-tag.quiet { background: var(--purple); }
+
+    .trip-desc {
+      margin: 0;
+      color: #475467;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .mini {
+      padding: 9px;
+      border-radius: 14px;
+      background: #f8fafc;
+      border: 1px solid var(--line);
+    }
+
+    .mini b {
+      display: block;
+      margin-bottom: 3px;
+      color: #667085;
+      font-size: 11px;
+    }
+
+    .mini span {
+      font-size: 12px;
+      font-weight: 950;
+      color: #182230;
+    }
+
+    .final-card {
+      background: #101828;
+      color: #fff;
+    }
+
+    .final-card h2 {
+      margin: 0 0 10px;
+      letter-spacing: -0.04em;
+    }
+
+    .final-card p {
+      margin: 0;
+      color: #d0d5dd;
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    .rank-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .rank {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      align-items: center;
+      padding: 10px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.1);
+    }
+
+    .rank-no {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: #fff;
+      color: #101828;
+      font-weight: 1000;
+    }
+
+    .rank strong { display: block; font-size: 14px; }
+    .rank small { color: #cbd5e1; font-size: 12px; }
+
+    .notice {
+      margin-top: 12px;
+      color: #667085;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 1100px) {
+      .hero,
+      .layout { grid-template-columns: 1fr; }
+      .map-card { position: relative; top: auto; min-height: auto; }
+      .korea-map { height: 690px; }
+    }
+
+    @media (max-width: 700px) {
+      .page { padding: 16px; }
+      .hero-main,
+      .hero-side,
+      .map-card,
+      .info-card,
+      .final-card { padding: 16px; }
+      .korea-map { height: 560px; }
+      .map-svg { inset: 16px 10px; width: calc(100% - 20px); height: calc(100% - 32px); }
+      .map-popup { position: static; width: auto; margin-top: 14px; }
+      .map-hint { display: none; }
+      .mini-grid { grid-template-columns: 1fr; }
+      .region-label { display: none; }
+      .pin { width: 36px; height: 36px; }
+      .pin-name { font-size: 11px; padding: 5px 7px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="hero-main">
+        <div class="eyebrow">📍 20명 친구여행 후보 지도</div>
+        <h1>한반도 지도에 찍어보는<br />바다·계곡 여행 후보지</h1>
+        <p class="subtitle">
+          친구들한테 공유하기 좋게 한반도 지도 위에 후보 지역을 핀으로 표시했다.
+          핀을 누르면 해당 지역의 숙소 후보, 추천 이유, 주의사항이 바로 뜬다.
+        </p>
+      </div>
+      <aside class="hero-side">
+        <div class="side-title">숙소 고를 때 필수 확인</div>
+        <ul class="checklist">
+          <li>✅ 성인 20명 기준 최대 인원·추가요금 확인</li>
+          <li>✅ 화장실 2~3개 이상, 주차 5대 이상 권장</li>
+          <li>✅ 바비큐장 20명 동시 이용 가능 여부 확인</li>
+          <li>✅ 밤 10시 이후 노래방·스피커·마당 사용 규정 확인</li>
+        </ul>
+        <p class="notice">※ 이 지도는 친구들 공유용 인포그래픽 시안이라 핀 위치는 지역 중심 기준이다. 실제 예약 전 주소·가격·입실 인원은 숙소에 재확인해야 한다.</p>
+      </aside>
+    </section>
+
+    <section class="layout">
+      <section class="map-card">
+        <div class="map-title-row">
+          <div>
+            <h2 class="map-title">전국 후보지 핀 지도</h2>
+            <p class="map-subtitle">핀을 클릭하면 숙소 링크와 추천 이유가 열린다.</p>
+          </div>
+          <div class="legend">
+            <span class="legend-item"><i class="dot best"></i>단체 최우선</span>
+            <span class="legend-item"><i class="dot sea"></i>바다</span>
+            <span class="legend-item"><i class="dot valley"></i>계곡/강</span>
+            <span class="legend-item"><i class="dot activity"></i>액티비티</span>
+            <span class="legend-item"><i class="dot quiet"></i>조용한 동해</span>
+          </div>
+        </div>
+
+        <div class="korea-map" id="mapStage">
+          <svg class="map-svg" viewBox="0 0 520 760" aria-label="한반도 지도 실루엣" role="img">
+            <defs>
+              <linearGradient id="southGrad" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0%" stop-color="#e3f8eb" />
+                <stop offset="100%" stop-color="#8fd6a4" />
+              </linearGradient>
+              <linearGradient id="northGrad" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0%" stop-color="#f0f4f8" />
+                <stop offset="100%" stop-color="#d9e2ec" />
+              </linearGradient>
+            </defs>
+
+            <!-- 북한 영역: 전체 한반도 느낌을 주기 위한 단순 실루엣 -->
+            <path d="M276 24 C330 36 355 76 350 124 C382 145 379 189 343 207 C360 238 340 270 306 269 C296 301 263 319 233 303 C202 320 169 302 166 266 C132 252 121 215 148 192 C132 154 153 119 190 115 C196 74 228 36 276 24 Z" fill="url(#northGrad)" stroke="#cbd5e1" stroke-width="3" />
+
+            <!-- 남한 영역: 여행 후보 핀이 찍히는 메인 지도 -->
+            <path d="M251 279 C289 282 320 307 328 347 C356 365 363 401 344 428 C365 456 351 492 318 503 C316 543 287 573 249 579 C229 613 185 620 157 594 C119 593 91 566 92 529 C57 503 61 458 97 441 C87 401 108 368 144 360 C150 321 193 289 251 279 Z" fill="url(#southGrad)" stroke="#43a76b" stroke-width="4" />
+
+            <!-- 제주도 -->
+            <ellipse cx="190" cy="682" rx="52" ry="23" fill="#b8e8c6" stroke="#43a76b" stroke-width="3" />
+
+            <!-- 주요 도 경계 느낌의 장식선 -->
+            <path d="M190 314 C207 345 208 377 192 407" fill="none" stroke="rgba(67,167,107,.45)" stroke-width="2" stroke-dasharray="7 8" />
+            <path d="M247 312 C232 348 238 385 270 412" fill="none" stroke="rgba(67,167,107,.45)" stroke-width="2" stroke-dasharray="7 8" />
+            <path d="M135 437 C180 452 222 452 280 434" fill="none" stroke="rgba(67,167,107,.45)" stroke-width="2" stroke-dasharray="7 8" />
+            <path d="M136 528 C184 507 242 513 303 533" fill="none" stroke="rgba(67,167,107,.45)" stroke-width="2" stroke-dasharray="7 8" />
+          </svg>
+
+          <span class="region-label" style="left:51%; top:20%;">북한</span>
+          <span class="region-label" style="left:49%; top:44%;">강원권</span>
+          <span class="region-label" style="left:35%; top:49%;">수도권</span>
+          <span class="region-label" style="left:34%; top:64%;">충청권</span>
+          <span class="region-label" style="left:50%; top:70%;">경상권</span>
+          <span class="region-label" style="left:30%; top:76%;">전라권</span>
+          <span class="region-label" style="left:36%; top:91%;">제주</span>
+          <div class="map-popup hidden" id="mapPopup"></div>
+        </div>
+      </section>
+
+      <aside class="side-panel">
+        <section class="info-card">
+          <div class="chips" id="filterChips">
+            <button class="chip active" data-filter="all">전체</button>
+            <button class="chip" data-filter="best">단체 최우선</button>
+            <button class="chip" data-filter="sea">바다</button>
+            <button class="chip" data-filter="valley">계곡/강</button>
+            <button class="chip" data-filter="activity">액티비티</button>
+            <button class="chip" data-filter="quiet">조용한 동해</button>
+          </div>
+          <div class="cards" id="cards"></div>
+        </section>
+
+        <section class="final-card">
+          <h2>총무 기준 최종 추천</h2>
+          <p>20명 여행은 숙소 수용력, 소음 규정, 바비큐 동시 이용 가능 여부가 핵심이다. 실패 확률을 낮추려면 홍천·가평, 바다 분위기를 원하면 양양·태안이 좋다.</p>
+          <div class="rank-list">
+            <div class="rank"><div class="rank-no">1</div><div><strong>홍천</strong><small>20명 독채 후보가 가장 명확하고 계곡·강·바비큐 밸런스 좋음</small></div></div>
+            <div class="rank"><div class="rank-no">2</div><div><strong>가평</strong><small>접근성 좋고 단체 MT형 시설이 많아 실패 확률 낮음</small></div></div>
+            <div class="rank"><div class="rank-no">3</div><div><strong>양양</strong><small>바다 분위기와 사진 감성은 최고, 예약 난이도는 높음</small></div></div>
+          </div>
+        </section>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    const places = [
+      {
+        id: "hongcheon",
+        order: 1,
+        type: "best",
+        categories: ["best", "valley", "activity"],
+        typeLabel: "단체 최우선",
+        region: "홍천 / 팔봉산 / 홍천강",
+        x: 58,
+        y: 47,
+        verdict: "20명 친구 여행 기준으로 가장 안정적인 1순위. 계곡·강·바비큐·노래방·수영장형 숙소 조합이 좋다.",
+        access: "수도권 기준 중간",
+        mood: "단체 MT / 바비큐",
+        risk: "편의시설 거리 확인",
+        reasons: ["최대 20인 독채 후보가 명확함", "홍천강·팔봉산 물놀이와 래프팅 연계 가능", "가평보다 공간이 넓고 덜 복잡한 편"],
+        cautions: ["식재료와 생필품은 직접 준비해야 하는 숙소가 많음", "노래방·스피커 사용 시간 제한 확인 필요"],
+        lodgings: [
+          { name: "홍천 메이슨 스파앤 불가마", note: "기준 4인 / 최대 20인, 독채·복층, 노래방·불가마·야외수영장·바비큐 후보", url: "https://nol.yanolja.com/stay/domestic/1000111594" },
+          { name: "홍천강 단체펜션 검색", note: "예약 불가 시 홍천강·서면 주변 확장 검색", url: "https://www.yeogi.com/accommodation/pension/kr/%EA%B0%95%EC%9B%90%ED%8A%B9%EB%B3%84%EC%9E%90%EC%B9%98%EB%8F%84/%ED%99%8D%EC%B2%9C%EA%B5%B0" }
+        ]
+      },
+      {
+        id: "gapyeong",
+        order: 2,
+        type: "best",
+        categories: ["best", "valley"],
+        typeLabel: "단체 최우선",
+        region: "가평 / 청평 / 용추계곡",
+        x: 45,
+        y: 48,
+        verdict: "서울·수도권 출발이면 실패 확률이 가장 낮은 무난한 선택. 단체펜션, 독채, 수영장, 바비큐 옵션이 많다.",
+        access: "가장 좋음",
+        mood: "계곡 / MT / 수영장",
+        risk: "성수기 가격 높음",
+        reasons: ["20명 이상 수용 가능한 독채 후보가 있음", "계곡·수영장·족구·노래방 같은 단체용 시설이 많음", "이동 부담이 적어 늦게 출발해도 비교적 안전"],
+        cautions: ["성수기 주말은 가격이 빠르게 올라감", "소음 민원이 많은 지역이라 밤 시간 규정 확인 필수"],
+        lodgings: [
+          { name: "가평 별끌림하우스 / 달끌림하우스", note: "별끌림 20인 이상, 달끌림 25인 이상 안내. 수영장·노래방·스크린골프·바비큐형 후보", url: "https://site.onda.me/138948" },
+          { name: "가평 별끌림하우스 예약 후보", note: "날짜별 가격·예약 가능 여부 확인용", url: "https://nol.yanolja.com/stay/domestic/1000107981" }
+        ]
+      },
+      {
+        id: "yangyang",
+        order: 3,
+        type: "sea",
+        categories: ["sea"],
+        typeLabel: "바다 감성",
+        region: "양양 / 낙산 / 하조대",
+        x: 70,
+        y: 46,
+        verdict: "바다 분위기, 서핑, 사진, 밤 산책까지 챙기고 싶으면 최고. 다만 20명 단체숙소는 빨리 잡아야 한다.",
+        access: "동해권 이동 필요",
+        mood: "바다 / 서핑 / 감성",
+        risk: "예약 난이도 높음",
+        reasons: ["바다 도보권 독채 후보가 있음", "낙산·하조대·조산해변 등 이동 선택지가 좋음", "친구들끼리 사진과 분위기를 챙기기 좋음"],
+        cautions: ["20명은 협의 예약인 경우가 많아 호스트 사전문의 필수", "성수기 숙박비와 교통 정체 부담이 큼"],
+        lodgings: [
+          { name: "양양 해피빌 A동", note: "50평 독채, 바다 도보권, 기준 10명 / 최대 20명 협의 가능 안내", url: "https://www.airbnb.co.kr/rooms/32117972" },
+          { name: "양양 해피빌 독채펜션", note: "독채 형태, 넓은 정원·주차장, 가족모임·워크숍형 후보", url: "https://www.yeogi.com/domestic-accommodations/66765" }
+        ]
+      },
+      {
+        id: "taean",
+        order: 4,
+        type: "sea",
+        categories: ["sea"],
+        typeLabel: "가성비 바다",
+        region: "태안 / 안면도",
+        x: 33,
+        y: 65,
+        verdict: "동해보다 감성은 약할 수 있지만, 단체펜션과 바비큐·족구·노래방형 숙소 찾기는 편한 편. 가성비 바다 후보.",
+        access: "서해권 이동 무난",
+        mood: "서해 / 바비큐 / 단체펜션",
+        risk: "객실 2개 조합 가능성",
+        reasons: ["안면도·꽃지·백사장항 주변 단체펜션 후보가 많음", "숙소 안에서 바비큐·족구·노래방 중심으로 놀기 좋음", "양양보다 예산을 낮출 가능성이 있음"],
+        cautions: ["20명 전원 한 객실보다 2객실 조합이 현실적일 수 있음", "조수간만과 해수욕장 위치를 확인해야 함"],
+        lodgings: [
+          { name: "태안 안면도 트루디독채펜션", note: "독채형 객실 여러 개 조합 후보. 바비큐·단체시설 확인용", url: "https://nol.yanolja.com/stay/domestic/3014555" },
+          { name: "트루디 펜션 공식 페이지", note: "객실별 최대 인원과 구조 확인용", url: "https://www.xn--2z1bp6eexjmwss6a.com/" }
+        ]
+      },
+      {
+        id: "yeongwol",
+        order: 5,
+        type: "activity",
+        categories: ["activity", "valley"],
+        typeLabel: "액티비티",
+        region: "영월 / 동강",
+        x: 61,
+        y: 58,
+        verdict: "숙소에서만 놀기 싫고 낮에 래프팅 같은 단체 액티비티를 넣고 싶으면 좋다. MT형 일정 만들기 쉽다.",
+        access: "이동 거리 있음",
+        mood: "래프팅 / 자연 / 패키지",
+        risk: "바다 감성 없음",
+        reasons: ["20명 이상 래프팅 단체할인·패키지 조합이 가능", "동강·어라연·고씨굴·별마로천문대 등 관광 연계 가능", "숙소 여러 객실을 나눠 잡아도 운영이 편함"],
+        cautions: ["비 오거나 수위 상황에 따라 액티비티 변동 가능", "밤에 번화가 분위기를 기대하면 아쉬움"],
+        lodgings: [
+          { name: "탑스텐 동강 시스타 리조트", note: "객실 여러 개 조합형. 리조트형으로 안정성 높음", url: "https://nol.yanolja.com/stay/domestic/3001814" },
+          { name: "동강 래프팅 패키지", note: "동강래프팅+펜션 1박 패키지 가격표 확인용", url: "https://www.raftingcamp.co.kr/rafting/c1.htm" }
+        ]
+      },
+      {
+        id: "goseong",
+        order: 6,
+        type: "quiet",
+        categories: ["quiet", "sea"],
+        typeLabel: "조용한 동해",
+        region: "고성 / 송지호 / 속초 근처",
+        x: 73,
+        y: 42,
+        verdict: "양양보다 조용하고 바다는 깨끗한 편. 시끌벅적한 MT보다 조용한 동해 힐링형 여행에 적합하다.",
+        access: "동해권 이동 필요",
+        mood: "조용한 바다 / 힐링",
+        risk: "20명 수용 확인 필수",
+        reasons: ["속초·고성 관광지 접근성이 좋음", "송지호·자작도·고성 해변 쪽으로 조용한 숙소 후보가 있음", "복잡한 양양 분위기가 싫으면 대안으로 좋음"],
+        cautions: ["20명 단체 수용 여부가 불명확한 숙소가 많아 전화 확인 필수", "바비큐 재료와 숯·석쇠를 직접 챙겨야 하는 곳이 있음"],
+        lodgings: [
+          { name: "고성 속초독채 펜션", note: "독채·바비큐·주차 5대 안내. 단체 가능 여부는 별도 문의 필요", url: "https://site.onda.me/138814" },
+          { name: "송지호 해수욕장 근처 펜션 검색", note: "조용한 동해 바다 숙소 후보 확장 검색", url: "https://www.yeogi.com/accommodation/pension/kr/attraction/%EA%B3%A0%EC%84%B1%EA%B5%B0%EC%86%A1%EC%A7%80%ED%98%B8%ED%95%B4%EC%88%98%EC%9A%95%EC%9E%A5" }
+        ]
+      }
+    ];
+
+    const mapStage = document.getElementById('mapStage');
+    const mapPopup = document.getElementById('mapPopup');
+    const cardsEl = document.getElementById('cards');
+    const chipsEl = document.getElementById('filterChips');
+    let activeId = null;
+    let currentFilter = 'all';
+
+    function createPins() {
+      places.forEach(place => {
+        const pin = document.createElement('button');
+        pin.className = `pin ${place.type}`;
+        pin.dataset.id = place.id;
+        pin.style.left = `${place.x}%`;
+        pin.style.top = `${place.y}%`;
+        pin.title = place.region;
+        pin.innerHTML = `<span>${place.order}</span>`;
+        pin.addEventListener('click', () => selectPlace(place.id));
+        mapStage.appendChild(pin);
+
+        const name = document.createElement('div');
+        name.className = 'pin-name';
+        name.dataset.labelFor = place.id;
+        name.style.left = `${place.x}%`;
+        name.style.top = `calc(${place.y}% + 4px)`;
+        name.textContent = place.region.split('/')[0].trim();
+        mapStage.appendChild(name);
+      });
+    }
+
+    function popupHtml(place) {
+      return `
+        <div class="popup-top">
+          <h3 class="popup-title">${place.order}. ${place.region}</h3>
+          <button class="popup-close" type="button" aria-label="닫기">×</button>
+        </div>
+        <div style="margin-bottom:10px;">
+          <span class="popup-badge ${place.type}">${place.typeLabel}</span>
+        </div>
+        <p class="popup-desc">${place.verdict}</p>
+        <ul class="popup-reasons">
+          ${place.reasons.slice(0, 3).map(reason => `<li>${reason}</li>`).join('')}
+        </ul>
+        <div class="popup-links">
+          ${place.lodgings.map(lodging => `
+            <a class="popup-link" href="${lodging.url}" target="_blank" rel="noopener">
+              <span>${lodging.name}</span><span>↗</span>
+            </a>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function cardHtml(place) {
+      return `
+        <article class="trip-card" data-id="${place.id}" data-type="${place.type}">
+          <div class="trip-head">
+            <div class="trip-title">${place.order}. ${place.region}</div>
+            <span class="trip-tag ${place.type}">${place.typeLabel}</span>
+          </div>
+          <p class="trip-desc">${place.verdict}</p>
+          <div class="mini-grid">
+            <div class="mini"><b>접근성</b><span>${place.access}</span></div>
+            <div class="mini"><b>분위기</b><span>${place.mood}</span></div>
+            <div class="mini"><b>주의</b><span>${place.risk}</span></div>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderCards() {
+      const visiblePlaces = currentFilter === 'all'
+        ? places
+        : places.filter(place => place.type === currentFilter || place.categories?.includes(currentFilter));
+      cardsEl.innerHTML = visiblePlaces.map(cardHtml).join('');
+      document.querySelectorAll('.trip-card').forEach(card => {
+        card.addEventListener('click', () => selectPlace(card.dataset.id));
+      });
+      refreshActiveStates();
+    }
+
+    function refreshActiveStates() {
+      document.querySelectorAll('.pin').forEach(pin => {
+        const place = places.find(p => p.id === pin.dataset.id);
+        const isVisible = currentFilter === 'all' || place.type === currentFilter || place.categories?.includes(currentFilter);
+        pin.style.display = isVisible ? 'grid' : 'none';
+        pin.classList.toggle('active', pin.dataset.id === activeId);
+      });
+
+      document.querySelectorAll('.pin-name').forEach(label => {
+        const place = places.find(p => p.id === label.dataset.labelFor);
+        const isVisible = currentFilter === 'all' || place.type === currentFilter || place.categories?.includes(currentFilter);
+        label.style.display = isVisible ? 'block' : 'none';
+      });
+
+      document.querySelectorAll('.trip-card').forEach(card => {
+        card.classList.toggle('active', card.dataset.id === activeId);
+      });
+    }
+
+    function closePopup() {
+      activeId = null;
+      mapPopup.classList.add('hidden');
+      mapPopup.innerHTML = '';
+      refreshActiveStates();
+    }
+
+    function selectPlace(id) {
+      const place = places.find(p => p.id === id);
+      if (!place) return;
+      activeId = id;
+      mapPopup.innerHTML = popupHtml(place);
+      mapPopup.classList.remove('hidden');
+      const closeButton = mapPopup.querySelector('.popup-close');
+      if (closeButton) closeButton.addEventListener('click', closePopup);
+      refreshActiveStates();
+    }
+
+    chipsEl.addEventListener('click', event => {
+      const chip = event.target.closest('.chip');
+      if (!chip) return;
+      currentFilter = chip.dataset.filter;
+      document.querySelectorAll('.chip').forEach(button => button.classList.remove('active'));
+      chip.classList.add('active');
+
+      const activePlace = places.find(place => place.id === activeId);
+      if (currentFilter !== 'all' && (!activePlace || !(activePlace.type === currentFilter || activePlace.categories?.includes(currentFilter)))) {
+        closePopup();
+      }
+
+      renderCards();
+      refreshActiveStates();
+    });
+
+    createPins();
+    renderCards();
+  </script>
+</body>
+</html>
