@@ -1003,11 +1003,11 @@
 
         <section class="final-card">
           <h2>총무 기준 최종 추천</h2>
-          <p>20명 여행은 숙소 수용력, 소음 규정, 바비큐 동시 이용 가능 여부가 핵심이다. 후보 숙소는 최대 20명 전후 수용이 확인되는 곳 위주로 정리했고, 일부는 2개 동/2객실 조합이 필요하다.</p>
+          <p>20명 기준으로 최대 인원 미달, 노후·위생 우려가 큰 후보는 제외하고, 강릉 독채풀빌라 수처럼 독채·수영장·노래방·바비큐 중심의 숙소만 다시 추렸다. 7월 주말 예약 가능 여부는 날짜별로 변동되므로 예약 전 최종 확인이 필요하다.</p>
           <div class="rank-list">
-            <div class="rank"><div class="rank-no">1</div><div><strong>홍천</strong><small>20명 독채 후보가 가장 명확하고 계곡·강·바비큐 밸런스 좋음</small></div></div>
-            <div class="rank"><div class="rank-no">2</div><div><strong>가평</strong><small>접근성 좋고 단체 MT형 시설이 많아 실패 확률 낮음</small></div></div>
-            <div class="rank"><div class="rank-no">3</div><div><strong>양양</strong><small>20명 협의 가능한 독채가 있어 바다 감성 후보로 유지</small></div></div>
+            <div class="rank"><div class="rank-no">1</div><div><strong>강릉 독채풀빌라 수</strong><small>가장 취향에 맞는 기준점. 대형 온수풀·노래방·오락기·개별바비큐</small></div></div>
+            <div class="rank"><div class="rank-no">2</div><div><strong>가평 뜰독채풀빌라</strong><small>22년 신축, 최대 20인, 개별수영장·개별바비큐·노래방</small></div></div>
+            <div class="rank"><div class="rank-no">3</div><div><strong>대부도 해솔바다향기</strong><small>오션뷰 독채, 최대 20인, 실내 온수풀·노래방·불멍</small></div></div>
           </div>
         </section>
       </aside>
@@ -1017,123 +1017,119 @@
   <script>
     const places = [
       {
-        id: "hongcheon",
+        id: "gangneung-su",
         order: 1,
         type: "best",
-        categories: ["best", "valley", "activity"],
-        typeLabel: "단체 최우선",
-        region: "홍천 / 팔봉산 / 홍천강",
-        x: 58,
-        y: 47,
-        verdict: "20명 친구 여행 기준으로 가장 안정적인 1순위. 계곡·강·바비큐·노래방·수영장형 숙소 조합이 좋다.",
-        access: "수도권 기준 중간",
-        mood: "단체 MT / 바비큐",
-        risk: "편의시설 거리 확인",
-        reasons: ["최대 20인 독채 후보가 명확함", "홍천강·팔봉산 물놀이와 래프팅 연계 가능", "가평보다 공간이 넓고 덜 복잡한 편"],
-        cautions: ["식재료와 생필품은 직접 준비해야 하는 숙소가 많음", "노래방·스피커 사용 시간 제한 확인 필요"],
+        categories: ["best", "sea"],
+        typeLabel: "최우선",
+        region: "강릉 / 독채풀빌라 수",
+        x: 62,
+        y: 51,
+        verdict: "이번 숙소 취향의 기준점. 20명까지 가능한 독채 풀빌라에 대형 온수수영장, 노래방, 오락기, 개별바비큐가 모두 있어 가장 우선 확인할 만하다.",
+        access: "동해권 이동 필요",
+        mood: "대형 온수풀 / 노래방 / 바다",
+        risk: "7월 주말 조기마감 가능",
+        reasons: ["기준 4인 / 최대 20인 독채풀빌라", "15m급 대형 온수수영장, 노래방, 오락기, 스타일러, 제빙기 등 시설 우수", "사근진 해변 도보권이라 바다 여행 감성도 챙길 수 있음"],
+        cautions: ["7월 토요일은 가격 상승과 조기마감 가능성이 높음", "바비큐·반려견·추가인원 비용은 예약 전 확인 필요"],
         lodgings: [
-          { name: "홍천 메이슨 스파앤 불가마", note: "기준 4인 / 최대 20인. 독채·복층·노래방·불가마·야외수영장·바비큐", url: "https://nol.yanolja.com/stay/domestic/1000111594" },
-          { name: "홍천 메이슨 가격 비교", note: "동일 숙소 대체 예약 링크. 최대 20인 표기 확인용", url: "https://accommodation.myrealtrip.com/union/products/3194296" }
+          { name: "NOL - 강릉 독채풀빌라 수", note: "기준 4인 / 최대 20인. 대형 온수풀·노래방·오락기·개별바비큐", url: "https://nol.yanolja.com/stay/domestic/10058339" },
+          { name: "여기어때 - 강릉 수 독채풀빌라", note: "후기 평점 높고, 4개 방·대형 풀·세탁/건조·노래방 구성 확인용", url: "https://www.yeogi.com/domestic-accommodations/80387" }
         ]
       },
       {
-        id: "gapyeong",
+        id: "gapyeong-ddeul",
         order: 2,
         type: "best",
         categories: ["best", "valley"],
-        typeLabel: "단체 최우선",
-        region: "가평 / 청평 / 용추계곡",
+        typeLabel: "신축 풀빌라",
+        region: "가평 / 뜰독채풀빌라",
         x: 45,
         y: 48,
-        verdict: "서울·수도권 출발이면 실패 확률이 가장 낮은 무난한 선택. 단체펜션, 독채, 수영장, 바비큐 옵션이 많다.",
-        access: "가장 좋음",
-        mood: "계곡 / MT / 수영장",
-        risk: "성수기 가격 높음",
-        reasons: ["20명 이상 수용 가능한 독채 후보가 있음", "계곡·수영장·족구·노래방 같은 단체용 시설이 많음", "이동 부담이 적어 늦게 출발해도 비교적 안전"],
-        cautions: ["성수기 주말은 가격이 빠르게 올라감", "소음 민원이 많은 지역이라 밤 시간 규정 확인 필수"],
+        verdict: "강릉까지 가기 부담스럽다면 가장 현실적인 대안. 22년 신축 독채풀빌라에 최대 20인, 개별수영장, 개별바비큐, 노래방이 있어 단체여행에 잘 맞는다.",
+        access: "수도권 접근 좋음",
+        mood: "신축 / 개별수영장 / 노래방",
+        risk: "성수기 가격 확인 필요",
+        reasons: ["단체풀빌라 기준 4인 / 최대 20인", "22년 신축 오픈으로 노후화 우려가 상대적으로 낮음", "개별수영장, 개별바비큐, 노래방, 편의점 접근성까지 갖춤"],
+        cautions: ["노래방 이용은 사전 신청 및 추가요금 가능", "가평 성수기 주말은 예약 경쟁이 높음"],
         lodgings: [
-          { name: "가평 별끌림하우스 / 달끌림하우스", note: "별끌림 20인 이상, 달끌림 25인 이상 안내. 수영장·노래방·스크린골프·바비큐형 후보", url: "https://site.onda.me/138948" },
-          { name: "가평 별끌림하우스 예약 후보", note: "날짜별 가격·예약 가능 여부 확인용", url: "https://nol.yanolja.com/stay/domestic/1000107981" }
+          { name: "NOL - 가평 뜰독채풀빌라", note: "단체풀빌라 기준 4인 / 최대 20인. 22년 신축·개별수영장·노래방", url: "https://nol.yanolja.com/stay/domestic/10047515" },
+          { name: "여기어때 - 가평 뜰 독채 풀빌라", note: "노래방 이용시간, 수영장 온도, 부대시설 확인용", url: "https://www.yeogi.com/domestic-accommodations/70220" }
         ]
       },
       {
-        id: "yangyang",
+        id: "daebudo-haesol",
         order: 3,
         type: "sea",
-        categories: ["sea"],
-        typeLabel: "바다 감성",
-        region: "양양 / 낙산 / 하조대",
-        x: 62,
-        y: 47,
-        verdict: "바다 분위기, 서핑, 사진, 밤 산책까지 챙기고 싶으면 최고. 다만 20명 단체숙소는 빨리 잡아야 한다.",
-        access: "동해권 이동 필요",
-        mood: "바다 / 서핑 / 감성",
-        risk: "예약 난이도 높음",
-        reasons: ["바다 도보권 독채 후보가 있음", "낙산·하조대·조산해변 등 이동 선택지가 좋음", "친구들끼리 사진과 분위기를 챙기기 좋음"],
-        cautions: ["20명은 협의 예약인 경우가 많아 호스트 사전문의 필수", "성수기 숙박비와 교통 정체 부담이 큼"],
+        categories: ["sea", "best"],
+        typeLabel: "오션뷰 독채",
+        region: "대부도 / 해솔바다향기독채",
+        x: 34,
+        y: 57,
+        verdict: "동해까지 멀면 대체 가능한 바다 독채 후보. 최대 20인, 오션뷰, 실내 온수수영장, 노래방, 불멍, 개별바비큐 구성이 좋아 친구 단체여행에 맞는다.",
+        access: "수도권 서해 접근",
+        mood: "오션뷰 / 실내온수풀 / 노래방",
+        risk: "동해 감성은 약함",
+        reasons: ["기준 12인 / 최대 20인", "실내 온수수영장, 객실 내 노래방, 불멍, 개별바비큐", "바다 전망 독채라 친구들끼리 사진·바비큐·숙소놀이에 적합"],
+        cautions: ["온수풀 비용 별도 가능", "서해라 동해식 맑은 바다 느낌은 약할 수 있음"],
         lodgings: [
-          { name: "양양 해피빌 A동", note: "50평 독채, 바다 도보권, 기준 10명 / 최대 20명 협의 가능 안내", url: "https://www.airbnb.co.kr/rooms/32117972" },
-          { name: "양양 해피빌 독채펜션", note: "독채 형태, 넓은 정원·주차장, 가족모임·워크숍형 후보", url: "https://www.yeogi.com/domestic-accommodations/66765" }
+          { name: "NOL - 대부도 해솔바다향기독채", note: "기준 12인 / 최대 20인. 오션뷰·실내온수풀·노래방·불멍", url: "https://nol.yanolja.com/stay/domestic/3018270" }
         ]
       },
       {
-        id: "taean",
+        id: "gapyeong-elysee",
         order: 4,
-        type: "sea",
-        categories: ["sea"],
-        typeLabel: "가성비 바다",
-        region: "태안 / 안면도",
-        x: 33,
-        y: 65,
-        verdict: "동해보다 감성은 약할 수 있지만, 단체펜션과 바비큐·족구·노래방형 숙소 찾기는 편한 편. 가성비 바다 후보.",
-        access: "서해권 이동 무난",
-        mood: "서해 / 바비큐 / 단체펜션",
-        risk: "객실 2개 조합 가능성",
-        reasons: ["안면도·꽃지·백사장항 주변 단체펜션 후보가 많음", "숙소 안에서 바비큐·족구·노래방 중심으로 놀기 좋음", "양양보다 예산을 낮출 가능성이 있음"],
-        cautions: ["트루디처럼 객실별 최대 10~12인인 곳은 제외하고, 20명 전후 수용 가능한 후보 위주로 교체", "조수간만과 해수욕장 위치를 확인해야 함"],
+        type: "valley",
+        categories: ["valley", "best"],
+        typeLabel: "계곡 대안",
+        region: "가평 / 엘리제 독채풀빌라",
+        x: 45,
+        y: 51,
+        verdict: "넓은 복층 객실, 실내수영장, 바비큐장, 노래방이 있는 가평권 대형 독채풀빌라 후보. 수도권 출발이면 이동 부담이 낮다.",
+        access: "수도권 접근 좋음",
+        mood: "복층 / 실내수영장 / 노래방",
+        risk: "날짜별 객실 확인 필요",
+        reasons: ["기준 10인 / 최대 20인으로 안내", "수영장, 바비큐, 객실스파, 회의시설, 노래방 등 단체 시설 구성", "가평권이라 차량 분산 이동과 장보기 동선이 수월"],
+        cautions: ["예약 가능 객실은 날짜별로 확인 필요", "정확한 침실·욕실 수는 예약 전 재확인 권장"],
         lodgings: [
-          { name: "태안 파인웰스 세솔동80평형", note: "기준 15인 / 최대 20인. 5000평 소나무 숲 속 독채펜션", url: "https://nol.yanolja.com/stay/domestic/10058164" },
-          { name: "태안 엔티크펜션 가·나동", note: "가동 최대 16인 + 나동 최대 10인, 총 26명까지 숙박 가능", url: "https://www.xn--sk4b15eb0mrwc.kr/" }
+          { name: "여기어때 - 가평 엘리제 독채풀빌라", note: "기준 10인 / 최대 20인. 실내수영장·바비큐장·노래방", url: "https://www.yeogi.com/domestic-accommodations/86015" }
         ]
       },
       {
-        id: "yeongwol",
+        id: "gapyeong-dami",
         order: 5,
+        type: "valley",
+        categories: ["valley"],
+        typeLabel: "계곡 후보",
+        region: "가평 / 다미스테이 독채펜션",
+        x: 43,
+        y: 53,
+        verdict: "풀빌라 수처럼 화려한 대형 온수풀 느낌은 아니지만, 최대 20인·야외수영장·노래방·계곡 분위기 조건을 충족하는 단체 후보로 볼 만하다.",
+        access: "수도권 접근 좋음",
+        mood: "계곡 / 야외수영장 / 노래방",
+        risk: "고급 풀빌라 감성은 약함",
+        reasons: ["58평형, 8명 정원 / 최대 20인", "야외수영장 6월~9월 운영, 노래방, 바비큐, 주방시설 구비", "계곡·숲 분위기라 바다보다 계곡파에게 적합"],
+        cautions: ["풀빌라 수 같은 대형 실내 온수풀은 아님", "수영장 운영상태와 야간 소음 규정 확인 필요"],
+        lodgings: [
+          { name: "여기어때 - 가평 다미스테이 독채펜션", note: "58평형 / 최대 20인. 야외수영장·노래방·바비큐", url: "https://www.yeogi.com/domestic-accommodations/84980" }
+        ]
+      },
+      {
+        id: "yangpyeong-lululala",
+        order: 6,
         type: "activity",
         categories: ["activity", "valley"],
-        typeLabel: "액티비티",
-        region: "영월 / 동강",
-        x: 61,
-        y: 58,
-        verdict: "숙소에서만 놀기 싫고 낮에 래프팅 같은 단체 액티비티를 넣고 싶으면 좋다. MT형 일정 만들기 쉽다.",
-        access: "이동 거리 있음",
-        mood: "래프팅 / 자연 / 패키지",
-        risk: "바다 감성 없음",
-        reasons: ["20명 이상 래프팅 단체할인·패키지 조합이 가능", "동강·어라연·고씨굴·별마로천문대 등 관광 연계 가능", "숙소 여러 객실을 나눠 잡아도 운영이 편함"],
-        cautions: ["비 오거나 수위 상황에 따라 액티비티 변동 가능", "밤에 번화가 분위기를 기대하면 아쉬움"],
+        typeLabel: "단체 놀이",
+        region: "양평 / 룰루랄라강하점",
+        x: 42,
+        y: 55,
+        verdict: "바다·풀빌라 감성보다는 단체로 놀기 좋은 가든형 독채. 최대 20인, 노래방, 히노끼, 야외간이수영장, 개별미니풀 구성이라 MT형으로는 강하다.",
+        access: "수도권 접근 좋음",
+        mood: "가든 독채 / 노래방 / 히노끼",
+        risk: "가격대 높음",
+        reasons: ["기준 8인 / 최대 20인", "히노끼, 노래방, 야외간이수영장, 객실 내 개별미니풀 구성", "생맥주·소주 무한제공 등 단체놀이형 콘셉트"],
+        cautions: ["숙박비가 높은 편이라 총액 확인 필요", "수영장 규모는 강릉 수보다 작을 가능성이 큼"],
         lodgings: [
-          { name: "영월 한마음펜션 A동 독채", note: "기준 12인 / 최대 20인. 동강 인근 독채 후보", url: "https://nol.yanolja.com/stay/domestic/10040335" },
-          { name: "영월 한마음펜션 C동 독채", note: "기준 12인 / 최대 20인. A동 예약 불가 시 같은 숙소 내 대안", url: "https://nol.yanolja.com/stay/domestic/10040335" }
-        ]
-      },
-      {
-        id: "goseong",
-        order: 6,
-        type: "quiet",
-        categories: ["quiet", "sea"],
-        typeLabel: "동해 대안",
-        region: "강릉 / 동해안 대형 독채",
-        x: 62,
-        y: 51,
-        verdict: "고성·속초권은 20명 단일 독채 후보가 불명확해서, 20명 수용이 확인되는 강릉권 대형 독채를 동해안 대안으로 넣었다.",
-        access: "동해권 이동 필요",
-        mood: "동해 / 대형 독채 / 풀빌라",
-        risk: "고성은 별도 재검색 필요",
-        reasons: ["기준 4인 / 최대 20인 독채 후보가 확인됨", "노래방·오락기·전기차충전·개별바비큐 등 단체 편의시설이 있음", "양양보다 숙소 중심으로 놀기 좋은 대안"],
-        cautions: ["고성·속초를 꼭 원하면 최대 20인 숙소를 별도로 재확인해야 함", "강릉으로 바뀌면 기존 고성보다 이동 동선이 달라짐"],
-        lodgings: [
-          { name: "강릉 독채풀빌라 수", note: "기준 4인 / 최대 20인. 노래방·오락기·개별바비큐·대형 독채 온수수영장", url: "https://nol.yanolja.com/stay/domestic/10058339" },
-          { name: "고성·속초 20인 숙소 재검색", note: "고성권은 최대 20인 단일 숙소 확인 후 교체 권장", url: "https://www.yeogi.com/accommodation/pension/kr/%EA%B0%95%EC%9B%90%ED%8A%B9%EB%B3%84%EC%9E%90%EC%B9%98%EB%8F%84/%EA%B3%A0%EC%84%B1%EA%B5%B0" }
+          { name: "NOL - 양평 룰루랄라강하점", note: "기준 8인 / 최대 20인. 히노끼·노래방·야외간이수영장·개별미니풀", url: "https://nol.yanolja.com/stay/domestic/10056165" }
         ]
       }
     ];
